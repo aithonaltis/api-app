@@ -1,4 +1,8 @@
 ApiApp::Application.routes.draw do
+  get "name/index"
+
+  get "name/show"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

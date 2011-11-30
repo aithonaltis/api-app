@@ -7,5 +7,4 @@ Api-app is your simple api!
 <li>Country api</li>
 <li>Universties api</li>
 <li>Currency api</li>
-<li>
 </ol>

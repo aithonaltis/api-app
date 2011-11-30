@@ -6,16 +6,9 @@ class NameController < ApplicationController
   def show
     @name=Name.find_by_name(params[:name])
     if @name!=nil
-      render :json => {
-          :success => true,
-          :name => @name.as_json(:only=>[:name, :gender])
-      }
-      status = :ok
+      render :json => @name.as_json(:only=>[:gender]), :status => :ok
     else
-      render :json => {
-          :success =>false
-      }
-      status = :bad_request
+       render :json => nil, :status => :bad_request
     end
   end
 end

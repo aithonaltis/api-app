@@ -1,10 +1,3 @@
-<h1>What is API-app ? </h1>
+<h1>What is Pigon ? </h1>
 
-Api-app is your simple api!
-<ol>
-<li>Names api</li>
-<li>Adress api</li>
-<li>Country api</li>
-<li>Universties api</li>
-<li>Currency api</li>
-</ol>
+Pigon is your simple api!

@@ -8,7 +8,8 @@ class NameController < ApplicationController
     if @name!=nil
       render :json => @name.as_json(:only=>[:gender]), :status => :ok, :callback => params[:callback]
     else
-      render :json => nil, :status => :not_found
+      render :json => {:error=>'Name Not Found'}, :status => :not_found
     end
   end
+
 end

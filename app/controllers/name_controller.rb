@@ -1,4 +1,6 @@
 class NameController < ApplicationController
+  before_filter :get_request_info
+
   def index
     show
   end

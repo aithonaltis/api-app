@@ -1,4 +1,6 @@
 class UniversityController < ApplicationController
+  before_filter :get_request_info
+
   def index
   end
 

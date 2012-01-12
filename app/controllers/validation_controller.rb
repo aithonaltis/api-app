@@ -72,4 +72,27 @@ class ValidationController < ApplicationController
       end
   end
 
+  def url_checker
+    @url=params[:url]
+    if url_check?(@url)
+      @response={:success=>"true"}
+    else
+      @response={:success=>"false"}
+    end
+    render :json => @response, :status => :ok, :callback => params[:callback]
+
+  end
+  def url_check?(site_url)
+    begin
+      @request = Net::HTTP.get_response(URI.parse(site_url))
+      if @request.code.to_i == 200
+        return TRUE
+      else
+        return FALSE
+      end
+    rescue
+      return FALSE
+    end
+  end
+
 end

@@ -82,6 +82,7 @@ class ValidationController < ApplicationController
     render :json => @response, :status => :ok, :callback => params[:callback]
 
   end
+
   def url_check?(site_url)
     begin
       @request = Net::HTTP.get_response(URI.parse(site_url))
@@ -93,6 +94,17 @@ class ValidationController < ApplicationController
     rescue
       return FALSE
     end
+  end
+
+  def ip_checker
+    @ip=params[:ip]
+    @ip_regex = /^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$/
+    if @ip=~@ip_regex
+      @response={:success=>"true"}
+    else
+      @response={:success=>"false"}
+    end
+    render :json => @response, :status => :ok, :callback => params[:callback]
   end
 
 end

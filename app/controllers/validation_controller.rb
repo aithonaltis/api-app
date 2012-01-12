@@ -107,4 +107,43 @@ class ValidationController < ApplicationController
     render :json => @response, :status => :ok, :callback => params[:callback]
   end
 
+  def credit_card
+    @credit_card=params[:ccno]
+    @credit_card_array=@credit_card.split(//)
+    if @credit_card.size!=16
+      @response={:success=>"false"}
+    elsif is_int?(@credit_card)
+      @total_double=0
+      i=1
+      while i<16
+        @total_double += @credit_card_array[i].to_i
+        i += 2
+      end
+      @total_single=0
+      j=0
+      while j<=16
+        @total_single += total_number(@credit_card_array[j].to_i*2)
+        j += 2
+      end
+      @total_all=@total_double+@total_single
+      if @total_all%10==0
+        @response={:success=>"true"}
+      else
+        @response={:success=>"false"}
+      end
+    else
+      @response={:success=>"false"}
+    end
+    render :json => @response, :status => :ok, :callback => params[:callback]
+  end
+
+  def total_number(number)
+    @number_array=(number.to_s).split(//)
+    @total=0
+    @number_array.each do |num|
+      @total+=num.to_i
+    end
+    return @total
+  end
+
 end

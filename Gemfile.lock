@@ -110,6 +110,7 @@ GEM
     uglifier (1.2.0)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
+    whois (2.1.0)
 
 PLATFORMS
   x86-mingw32
@@ -123,3 +124,4 @@ DEPENDENCIES
   sass-rails (~> 3.1.0)
   turn
   uglifier
+  whois

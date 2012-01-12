@@ -36,4 +36,40 @@ class ValidationController < ApplicationController
   def is_int?(str)
     return !!(str =~ /^[-+]?[1-9]([0-9]*)?$/)
   end
+
+  def email
+    @email=params[:email]
+    if is_valid_email?(@email)
+      @response={:success=>"true"}
+    else
+      @response={:success=>"false"}
+    end
+    render :json => @response, :status => :ok, :callback => params[:callback]
+  end
+
+  def is_valid_email?(email)
+    if email.count('@')!=1 || email.count('.')==0
+      return FALSE
+    elsif email =~ /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i
+      return validate_email_domain?(email)
+    else
+      return FALSE
+    end
+  end
+
+  def validate_email_domain?(email)
+      @domain = email.match(/\@(.+)/)[1]
+      begin
+        c = Whois::Client.new
+        r = c.query(@domain)
+        if r.available?
+          return FALSE
+        else
+          return TRUE
+        end
+      rescue
+        return FALSE
+      end
+  end
+
 end

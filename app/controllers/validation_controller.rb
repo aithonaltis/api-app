@@ -108,26 +108,39 @@ class ValidationController < ApplicationController
   end
 
   def credit_card
+    re_visa=/^4\d{15}$/
+    re_master=/^5[1-5]\d{14}$/
+    re_discover=/^6011\d{12}$/
+    re_amex=/^3[4,7]\d{13}$/
+    re_diners_club_c_b=/^30[0-5]\d{11}$/
+    re_diners_club_i=/^3[6,8]\d{12}$/
+    re_diners_club_u_c=/^5[4,5]\d{14}$/
     @credit_card=params[:ccno]
     @credit_card_array=@credit_card.split(//)
-    if @credit_card.size!=16
-      @response={:success=>"false"}
-    elsif is_int?(@credit_card)
-      @total_double=0
-      i=1
-      while i<16
-        @total_double += @credit_card_array[i].to_i
-        i += 2
-      end
-      @total_single=0
-      j=0
-      while j<=16
-        @total_single += total_number(@credit_card_array[j].to_i*2)
-        j += 2
-      end
-      @total_all=@total_double+@total_single
-      if @total_all%10==0
-        @response={:success=>"true"}
+    @length=@credit_card_array.size
+    if is_int?(@credit_card)
+      if @credit_card=~re_visa || @credit_card=~re_master || @credit_card=~re_discover ||
+          @credit_card=~re_amex || @credit_card=~re_diners_club_c_b || @credit_card=~re_diners_club_i ||
+          @credit_card=~re_diners_club_u_c
+
+        @total_double=0
+        i=1
+        while i<@length
+          @total_double += @credit_card_array[i].to_i
+          i += 2
+        end
+        @total_single=0
+        j=0
+        while j<=@length
+          @total_single += total_number(@credit_card_array[j].to_i*2)
+          j += 2
+        end
+        @total_all=@total_double+@total_single
+        if @total_all%10==0
+          @response={:success=>"true"}
+        else
+          @response={:success=>"false"}
+        end
       else
         @response={:success=>"false"}
       end
